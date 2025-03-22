@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs';
 import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
@@ -14,19 +15,14 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const samples = `# sample
-this is sample
-
----
-# test
-aaaa`;
+  const baseFile = readFileSync('../../slides/index.md').toString();
   const file = await unified()
     .use(remarkParse)
     .use(remarkFrontmatter)
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeStringify)
-    .process(samples)
+    .process(baseFile)
   const splitFiles = String(file).split('<hr>');
   return {
     splitFiles,
