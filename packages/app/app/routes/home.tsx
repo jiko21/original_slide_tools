@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
@@ -15,7 +15,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const baseFile = readFileSync('../../slides/index.md').toString();
+  const baseFile = await readFile('../../slides/index.md');
   const file = await unified()
     .use(remarkParse)
     .use(remarkFrontmatter)
