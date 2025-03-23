@@ -16,6 +16,9 @@ importers:
       '@react-router/serve':
         specifier: ^7.4.0
         version: 7.4.0(react-router@7.4.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       isbot:
         specifier: ^5.1.17
         version: 5.1.25
