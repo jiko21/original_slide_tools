@@ -7,8 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -F \"app\" dev"
   },
-  "keywords": [],
+  "keywords": [
+    
+  ],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.4"
+  "packageManager": "pnpm@10.6.4",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }
