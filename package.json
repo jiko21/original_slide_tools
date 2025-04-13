@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm -F \"app\" dev"
+    "dev": "pnpm -F \"app\" dev",
+    "build": "pnpm -F \"app\" build",
+    "serve": "pnpm -F \"app\" serve",
+    "pdf": "pnpm -F \"printer\" pdf",
+    "print": "pnpm build && pnpm serve && pnpm pdf"
   },
-  "keywords": [
-    
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.6.4",
