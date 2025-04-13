@@ -7,9 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm -F \"app\" dev",
     "build": "pnpm -F \"app\" build",
-    "serve": "pnpm -F \"app\" serve",
+    "serve": "pnpm -F \"app\" preview",
     "pdf": "pnpm -F \"printer\" pdf",
-    "print": "pnpm build && pnpm serve && pnpm pdf"
+    "start": "pm2 start pnpm --name \"app\" -- serve",
+    "stop": "pm2 stop app",
+    "print": "pnpm build && node index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +21,8 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
+  },
+  "devDependencies": {
+    "pm2": "^6.0.5"
   }
 }
