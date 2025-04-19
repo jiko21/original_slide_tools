@@ -21,21 +21,20 @@
 	};
 
 	const onKeyDown = (e: KeyboardEvent) => {
+		console.log(e.key);
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp':
-				if (page === 0) {
-					break;
-				}
-
-				swipePage(page - 1);
+				onPrev();
 				break;
 			case 'ArrowRight':
 			case 'ArrowDown':
-				if (page === data.splitFiles.length - 1) {
-					break;
+				onNext();
+				break;
+			case 'Escape':
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
 				}
-				swipePage(page + 1);
 				break;
 			default:
 				break;
@@ -50,6 +49,29 @@
 			document.removeEventListener('keydown', onKeyDown);
 		};
 	});
+
+	const onFullscreenClick = () => {
+		if (!document.fullscreenElement) {
+			document.documentElement.requestFullscreen();
+		} else if (document.exitFullscreen) {
+			document.exitFullscreen();
+		}
+	};
+
+	const onPrev = () => {
+		if (page === 0) {
+			return;
+		}
+
+		swipePage(page - 1);
+	};
+
+	const onNext = () => {
+		if (page === data.splitFiles.length - 1) {
+			return;
+		}
+		swipePage(page + 1);
+	};
 </script>
 
 <div class="group relative">
@@ -61,6 +83,6 @@
 	<div
 		class="invisible absolute bottom-8 flex w-full justify-center group-hover:visible print:hidden"
 	>
-		<Toolbar />
+		<Toolbar {onFullscreenClick} {onPrev} {onNext} />
 	</div>
 </div>
