@@ -2,6 +2,7 @@
 	import { pushState } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import Slide from '../components/Slide.svelte';
+	import Toolbar from '../components/Toolbar/Toolbar.svelte';
 
 	const { data } = $props();
 	let url: URL;
@@ -51,8 +52,15 @@
 	});
 </script>
 
-<div class="relative">
-	{#each data.splitFiles as item, index (`${item}-${index}`)}
-		<Slide {item} isActive={page === index} />
-	{/each}
+<div class="group relative">
+	<div class="p-6 print:h-screen print:w-screen print:p-0">
+		{#each data.splitFiles as item, index (`${item}-${index}`)}
+			<Slide {item} isActive={page === index} />
+		{/each}
+	</div>
+	<div
+		class="invisible absolute bottom-8 flex w-full justify-center group-hover:visible print:hidden"
+	>
+		<Toolbar />
+	</div>
 </div>

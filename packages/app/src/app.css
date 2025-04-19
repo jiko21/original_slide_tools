@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
 @page {
-  size: A4 landscape;
+  size: 16in 9in;
   margin: 0mm;
 }

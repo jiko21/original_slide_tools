@@ -4,11 +4,13 @@
 </script>
 
 <div
-	class="box-border h-screen w-screen p-6 print:visible print:block print:p-0"
+	class="box-border h-full w-full print:visible print:block print:h-full print:w-full print:p-0"
 	class:block={isActive}
 	class:hidden={!isActive}
 >
-	<div class="aspect-video h-auto max-h-full w-auto max-w-full bg-white print:h-full print:w-full">
+	<div
+		class="aspect-video h-[calc(100vh-48px)] max-h-full w-[calc(100vw-48px)] max-w-full bg-white print:h-full print:w-full"
+	>
 		{@html item}
 	</div>
 </div>
