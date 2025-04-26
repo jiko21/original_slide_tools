@@ -7,6 +7,7 @@
 	const { data } = $props();
 	let url: URL;
 	let page = $state(0);
+	let ratio = $state(1);
 	const swipePage = (index: number) => {
 		if (!document.startViewTransition) {
 			url.searchParams.set('p', `${index + 1}`);
@@ -20,8 +21,12 @@
 		});
 	};
 
+	const onResize = () => {
+		const width = window.innerWidth - 48;
+		ratio = width / 1920;
+	};
+
 	const onKeyDown = (e: KeyboardEvent) => {
-		console.log(e.key);
 		switch (e.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp':
@@ -42,11 +47,14 @@
 	};
 
 	onMount(() => {
+		const width = window.innerWidth - 48;
 		url = new URL(decodeURIComponent(document.location.href));
 		page = Number(url.searchParams.get('p') ?? '1') - 1;
 		document.addEventListener('keydown', onKeyDown);
+		window.addEventListener('resize', onResize);
 		return () => {
 			document.removeEventListener('keydown', onKeyDown);
+			window.removeEventListener('resize', onResize);
 		};
 	});
 
@@ -77,7 +85,7 @@
 <div class="group relative">
 	<div class="p-6 print:h-screen print:w-screen print:p-0">
 		{#each data.splitFiles as item, index (`${item}-${index}`)}
-			<Slide {item} isActive={page === index} />
+			<Slide {item} isActive={page === index} {ratio} globalStyle={data.globalStyle} />
 		{/each}
 	</div>
 	<div
