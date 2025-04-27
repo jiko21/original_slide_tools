@@ -2,7 +2,7 @@
 
 @page {
   size: 16in 9in;
-  margin: 0mm;
+  margin: auto;
 }
 
 @source "../../../slides/";
