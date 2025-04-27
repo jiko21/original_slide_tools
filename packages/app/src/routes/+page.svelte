@@ -84,15 +84,17 @@
 	};
 </script>
 
-<div class="group relative">
-	<div class="p-6 print:h-screen print:w-screen print:p-0">
-		{#each data.splitFiles as item, index (`${item}-${index}`)}
-			<Slide {item} isActive={page === index} {ratio} globalStyle={data.globalStyle} />
-		{/each}
-	</div>
-	<div
-		class="invisible absolute bottom-8 flex w-full justify-center group-hover:visible print:hidden"
-	>
-		<Toolbar {onFullscreenClick} {onPrev} {onNext} />
+<div class="flex h-screen w-screen items-center justify-center">
+	<div class="group relative">
+		<div class="aspect-video max-h-screen w-screen p-6 print:h-screen print:w-screen print:p-0">
+			{#each data.splitFiles as item, index (`${item}-${index}`)}
+				<Slide {item} isActive={page === index} {ratio} globalStyle={data.globalStyle} />
+			{/each}
+		</div>
+		<div
+			class="invisible absolute bottom-8 flex w-full justify-center group-hover:visible print:hidden"
+		>
+			<Toolbar {onFullscreenClick} {onPrev} {onNext} />
+		</div>
 	</div>
 </div>
