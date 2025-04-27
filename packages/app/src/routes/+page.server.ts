@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { appendStyle } from '../util';
+import { appendStyle, convertAssetUrl, htmlToMd } from '../util';
 import type { PageServerLoad } from './$types';
 
 export const prerender = true;
@@ -20,7 +20,9 @@ export const load: PageServerLoad = async () => {
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeStringify, { allowDangerousHtml: true })
+    .use(htmlToMd)
     .use(appendStyle, { style: styleJson })
+    .use(convertAssetUrl)
     .process(baseFile)
   const splitFiles = String(file).split('<hr>');
   return {splitFiles, globalStyle: styleJson.global};

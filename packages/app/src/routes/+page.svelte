@@ -48,6 +48,8 @@
 
 	onMount(() => {
 		const width = window.innerWidth - 48;
+		ratio = width / 1920;
+
 		url = new URL(decodeURIComponent(document.location.href));
 		page = Number(url.searchParams.get('p') ?? '1') - 1;
 		document.addEventListener('keydown', onKeyDown);
