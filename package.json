@@ -5,23 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pnpm -F \"app\" dev",
-    "build": "pnpm -F \"app\" build",
-    "serve": "pnpm -F \"app\" preview",
-    "pdf": "pnpm -F \"printer\" pdf",
+    "dev": "bun -F \"app\" dev",
+    "build": "bun -F \"app\" build",
+    "serve": "bun -F \"app\" preview",
+    "pdf": "bun -F \"printer\" pdf",
+    "logs": "pm2 logs",
     "start": "pm2 start pnpm --name \"app\" -- serve",
-    "kill": "pm2 kill",
-    "print": "node index.js"
+    "kill": "pm2 kill"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.4",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "pm2": "^6.0.5"
   }
