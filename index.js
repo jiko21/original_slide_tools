@@ -1,7 +1,7 @@
 import { exec, spawn } from 'node:child_process';
 
 const abortController = new AbortController();
-const bat = spawn("pnpm start", { shell: true });
+const bat = spawn("make serve", { shell: true });
 setTimeout(async () => {
   let printProcess;
   try {
@@ -11,7 +11,9 @@ setTimeout(async () => {
   } finally {
   }
   printProcess.on('exit', async () => {
-    await exec("pnpm stop");
-    process.exit(0);
+    const stopJob = await exec("pnpm kill");
+    stopJob.on('exit', () => {
+      process.exit(0);
+    })
   });
 }, 4000);

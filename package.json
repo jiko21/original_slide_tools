@@ -10,8 +10,8 @@
     "serve": "pnpm -F \"app\" preview",
     "pdf": "pnpm -F \"printer\" pdf",
     "start": "pm2 start pnpm --name \"app\" -- serve",
-    "stop": "pm2 stop app",
-    "print": "pnpm build && node index.js"
+    "kill": "pm2 kill",
+    "print": "node index.js"
   },
   "keywords": [],
   "author": "",

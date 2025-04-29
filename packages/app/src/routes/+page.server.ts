@@ -12,8 +12,9 @@ import type { PageServerLoad } from './$types';
 
 export const prerender = true;
 export const load: PageServerLoad = async () => {
-  const baseFile = await readFile('../../slides/index.md');
-  const styleJson =destr<ExternalCss>((await readFile('../../slides/style.json')).toString());
+  const targetDir = process.env["TARGET_DIR"] ?? "";
+  const baseFile = await readFile(`${targetDir}/index.md`);
+  const styleJson =destr<ExternalCss>((await readFile(`${targetDir}/style.json`)).toString());
   const file = await unified()
     .use(remarkParse)
     .use(remarkFrontmatter)
