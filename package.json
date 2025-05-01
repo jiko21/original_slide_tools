@@ -8,18 +8,12 @@
     "dev": "bun --filter \"app\" dev",
     "build": "bun --filter \"app\" build",
     "serve": "bun --filter \"app\" preview",
-    "pdf": "bun --filter \"printer\" pdf",
-    "logs": "pm2 logs",
-    "start": "pm2 start pnpm --name \"app\" -- serve",
-    "kill": "pm2 kill"
+    "pdf": "bun --filter \"printer\" pdf"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "pm2": "^6.0.5"
-  }
+  ]
 }
