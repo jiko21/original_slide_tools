@@ -1,6 +1,7 @@
 import { exec } from "child_process";
 import { execSync } from 'node:child_process';
 import { readFileSync, watchFile, writeFileSync } from "node:fs";
+import path from "node:path";
 import { chromium } from "playwright";
 import { exit } from "process";
 import { parseArgs } from "util";
@@ -21,7 +22,12 @@ const {values, positionals } = parseArgs({
   allowPositionals: true,
 });
 
+if (!values.src) {
+  console.error("target file is not found");
+  exit(1);
+}
 
+const src = path.isAbsolute(values.src) ? values.src : path.join(process.cwd(), values.src)
 const writeCss = () => {
   const targetStyle = values.style ? readFileSync(values.style).toString() : "";
 
@@ -33,7 +39,7 @@ const writeCss = () => {
     margin: auto;
   }
   
-  @source "${values.src}";
+  @source "${src}";
   
   
   ${targetStyle}
@@ -54,13 +60,13 @@ if (positionals.length < 3) {
   exit(1);
 }
 async function execBuild() {
-  execSync(`TARGET_DIR=${values.src} bun run build`);
+  execSync(`TARGET_DIR=${src} bun run build`);
   const proc = Bun.spawn(["bun", "run", "serve"], {
     stdout: 'ignore',
     stderr: 'ignore',
     env: {
       ...process.env,
-      TARGET_DIR: values.src
+      TARGET_DIR: src,
     },
   })
   proc.unref();
@@ -91,7 +97,7 @@ switch(positionals[2]) {
       console.error("target file is not found");
       exit(1);
     }
-    exec(`TARGET_DIR=${values.src} bun run dev`)
+    exec(`TARGET_DIR=${src} bun run dev`)
     break;
   }
   case "build": {
