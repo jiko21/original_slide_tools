@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 import { execSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, watchFile, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
 import { exit } from "process";
 import { parseArgs } from "util";
@@ -21,30 +21,38 @@ const {values, positionals } = parseArgs({
   allowPositionals: true,
 });
 
-const targetStyle = values.style ? readFileSync(values.style).toString() : "";
 
+const writeCss = () => {
+  const targetStyle = values.style ? readFileSync(values.style).toString() : "";
 
-const baseCss = `
-@import 'tailwindcss';
+  const baseCss = `
+  @import 'tailwindcss';
+  
+  @page {
+    size: 16in 9in;
+    margin: auto;
+  }
+  
+  @source "${values.src}";
+  
+  
+  ${targetStyle}
+  `
+  
+  writeFileSync("./packages/app/src/app.css", baseCss)
+};
 
-@page {
-  size: 16in 9in;
-  margin: auto;
+if (values.style) {
+  writeCss();
+  watchFile(values.style, () => {
+    writeCss();
+  });
 }
-
-@source "${values.src}";
-
-
-${targetStyle}
-`
 
 if (positionals.length < 3) {
   console.error("length of args should be 3");
   exit(1);
 }
-
-writeFileSync("./packages/app/src/app.css", baseCss)
-
 async function execBuild() {
   execSync(`TARGET_DIR=${values.src} bun run build`);
   const proc = Bun.spawn(["bun", "run", "serve"], {
