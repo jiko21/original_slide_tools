@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun -F \"app\" dev",
-    "build": "bun -F \"app\" build",
-    "serve": "bun -F \"app\" preview",
-    "pdf": "bun -F \"printer\" pdf",
+    "dev": "bun --filter \"app\" dev",
+    "build": "bun --filter \"app\" build",
+    "serve": "bun --filter \"app\" preview",
+    "pdf": "bun --filter \"printer\" pdf",
     "logs": "pm2 logs",
     "start": "pm2 start pnpm --name \"app\" -- serve",
     "kill": "pm2 kill"
