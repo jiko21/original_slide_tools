@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun --filter \"app\" dev",
-    "build": "bun --filter \"app\" build",
-    "serve": "bun --filter \"app\" preview",
-    "pdf": "bun --filter \"printer\" pdf"
+    "dev": "bun packages/command/index.ts dev",
+    "pdf": "bun packages/command/index.ts pdf"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "unist-util-visit": "^5.0.0"
+  }
 }

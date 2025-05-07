@@ -1,28 +1,21 @@
-import type { ExternalCss } from "$lib";
-import type { Node, Root } from 'mdast';
-import { type Transformer } from 'unified';
+import type { Element } from 'hast';
+import type { Transformer } from 'unified';
+import {visit} from 'unist-util-visit'
 
+export type ExternalCss = Record<string, string>
 interface Option {
   style: ExternalCss
 }
 export function appendStyle({ style }: Option): Transformer {
-  function addClass (items: Node) {
-    if (items.type === 'root') {
-      (items as Root).children.forEach(element => {
-        addClass(element);
-      });
-    } else if (items.type === 'element') {
-      if ((items as any).tagName === 'hr') {
-        return;
+  return (items) => {
+    visit(items, (node) => {
+      if (node.type === 'element') {
+        const appendClass = style[(node as Element).tagName];
+        (node as Element).properties = {
+          ...(node as Element).properties,
+          className: appendClass ? `${appendClass} ${(node as Element)?.properties?.className || ''}` : (node as Element)?.properties?.className,
+        };
       }
-      (items as any).properties = {
-        ...(items as any).properties,
-        class: style[(items as any).tagName],
-      };
-      (items as Root).children.forEach((element: Node) => {
-        addClass(element);
-      });
-    }
-  };
-  return (items) => addClass(items);
+    })
+  }
 }
