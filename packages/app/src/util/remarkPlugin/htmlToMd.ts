@@ -3,7 +3,7 @@ import type { Raw } from 'mdast-util-to-hast';
 import type { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
-const HTMLOptionRegex =  /\s+(?:(?:(\w+?)=["|'](.+?)["|'])|(\w+))/gm;
+const HTMLOptionRegex =  /\s+(?:(?:(\w+?)=["'](.+?)["'])|(\w+))/gm;
 const ImageOrVideoRegex = /^\s*<(img|video)/;
 
 function isTypeRaw(node: Node | Raw): node is Raw {
@@ -38,7 +38,7 @@ export function htmlToMd(): Transformer {
 }
 
 function getAttr(value: string) {
-  return value.matchAll(HTMLOptionRegex).reduce<{[key:string]: string}>((rslt, item) => {
+  return Array.from(value.matchAll(HTMLOptionRegex)).reduce<{[key:string]: string}>((rslt, item) => {
           if (item[1]) {
             rslt[item[1]] = item[2];
           } else {

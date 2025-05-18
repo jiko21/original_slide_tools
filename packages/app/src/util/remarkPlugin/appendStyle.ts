@@ -11,9 +11,12 @@ export function appendStyle({ style }: Option): Transformer {
     visit(items, (node) => {
       if (node.type === 'element') {
         const appendClass = style[(node as Element).tagName];
+        if (!appendClass) {
+          return;
+        }
         (node as Element).properties = {
           ...(node as Element).properties,
-          className: appendClass ? `${appendClass} ${(node as Element)?.properties?.className || ''}` : (node as Element)?.properties?.className,
+          className: `${appendClass} ${(node as Element)?.properties?.className || ''}`,
         };
       }
     })
