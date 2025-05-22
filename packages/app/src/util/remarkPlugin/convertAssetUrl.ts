@@ -1,21 +1,19 @@
-import type { Element, ElementContent, Root, RootContent } from 'hast';
-import type { Raw } from 'mdast-util-to-hast';
+import type { Element, Node } from 'hast';
 import path from 'path';
-import { type Transformer } from 'unified';
+import type { Transformer } from 'unified';
+import { visit } from 'unist-util-visit';
+
+export function isElement(node: Node | Element): node is Element {
+  return 'tagName' in node;
+}
 
 export function convertAssetUrl(): Transformer {
-  function addClass (items: Root | RootContent | Element | ElementContent | Raw) {
-    if (items.type === 'root') {
-      (items as Root).children.forEach(element => {
-        addClass(element);
-      });
-    } else if ((items as Element).tagName === 'img' || (items as Element).tagName === 'video') {
-      (items as Element).properties.src = path.join('/assets/', (items as Element).properties.src as string)
-    } else if (items.type === 'element') {
-      (items as unknown as Root).children.forEach((element) => {
-        addClass(element);
-      });
-    }
+
+  return (items) => {
+    visit(items, (node) => {
+      if (isElement(node) && (node.tagName === 'img' || node.tagName === 'video')) {
+        node.properties.src = path.join('/assets/', node.properties.src as string)
+      }
+    });
   };
-  return (items) => addClass(items as Root);
 }

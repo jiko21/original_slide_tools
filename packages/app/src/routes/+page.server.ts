@@ -1,4 +1,3 @@
-import type { ExternalCss } from '$lib';
 import destr from 'destr';
 import { readFile } from 'fs/promises';
 import rehypeStringify from 'rehype-stringify';
@@ -7,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { appendStyle, convertAssetUrl, htmlToMd } from '../util';
+import { appendStyle, convertAssetUrl, htmlToMd, type ExternalCss } from '../util';
 import type { PageServerLoad } from './$types';
 
 export const prerender = true;
@@ -20,11 +19,11 @@ export const load: PageServerLoad = async () => {
     .use(remarkFrontmatter)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeStringify, { allowDangerousHtml: true })
     .use(htmlToMd)
     .use(appendStyle, { style: styleJson })
     .use(convertAssetUrl)
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(baseFile)
   const splitFiles = String(file).split('<hr>');
-  return {splitFiles, globalStyle: styleJson.global};
+  return {splitFiles, globalStyle: styleJson.global };
 }
